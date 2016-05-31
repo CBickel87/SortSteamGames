@@ -1,21 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import sqlite3
-
-
-conn = sqlite3.connect('game_ratingsdb.sqlite')
-cur = conn.cursor()
-
-cur.executescript('''
-DROP TABLE IF EXISTS Games;
-
-CREATE TABLE Games (
-    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    title  TEXT UNIQUE,
-    metascore  INTEGER,
-    userscore  REAL
-);
-''')
+import csv
 
 url='http://www.metacritic.com/browse/games/score/metascore/all/pc/filtered?sort=desc&view=condensed&page='
 
@@ -32,13 +17,15 @@ for i in range(33):
     uscore = [u.getText() for u in htmluserscore]
     userscore = [u for u in uscore if u != 'User:']
 
+    # print(title)
+    # print(metascore)
+    # print(userscore)
+
     for t, m, u, in zip(title, metascore, userscore):
         print(t, m, u)
 
-        with conn:
-            cur.execute('''INSERT OR REPLACE INTO Games (title, metascore, userscore)
-                VALUES (?, ?, ?)''', (t, m, u))
+        with open('metacritic.csv', 'a', newline='') as f:
+            data = [t, m, u]
+            writer = csv.writer(f)
+            writer.writerow(data)
 
-conn.commit()
-cur.close()
-conn.close()
