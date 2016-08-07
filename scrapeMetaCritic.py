@@ -17,10 +17,6 @@ for i in range(33):
     uscore = [u.getText() for u in htmluserscore]
     userscore = [u for u in uscore if u != 'User:']
 
-    # print(title)
-    # print(metascore)
-    # print(userscore)
-
     for t, m, u, in zip(title, metascore, userscore):
         print(t, m, u)
 
