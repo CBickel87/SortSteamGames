@@ -7,7 +7,7 @@ with open('AppList.json', encoding='UTF8') as data1, open ('steamlist.json', enc
 
 d1 = (data1['applist']['apps']['app'])
 d2 = (data2['response']['games'])
-# counter = 0
+
 for index1 in d2:
     for index2 in d1:
         appid1 = index1['appid']
@@ -20,8 +20,6 @@ for index1 in d2:
                 csv_writer = csv.writer(fr)
                 for row in csv_reader:
                     if names == row[0]:
-                        # counter += 1
-                        # print(counter)
                         results = [appid1, names, row[1], row[2]]
 
                         with open('currentgames.csv', 'a', newline='') as fw:
